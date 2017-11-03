@@ -2,10 +2,13 @@ package net.tfobz.gui;
 
 import java.awt.Graphics;
 import java.awt.Toolkit;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+
+import net.tfobz.backtracking.*;
 
 /**
  * 
@@ -20,9 +23,9 @@ public class BacktrackingVisualGUI extends JDialog
 	JButton f = new JButton(">");
 	JButton ff = new JButton(">>");
 	
-	int[] verlauf = null;
+	ArrayList<Knoten> verlauf = null;
 	
-	public BacktrackingVisualGUI(JFrame owner, int[] verlauf){
+	public BacktrackingVisualGUI(JFrame owner, ArrayList<Knoten> verlauf, String[] names){
 		super(owner, "Backtracking - Visualisieren");
 		setLayout(null);
 		setModal(true);
@@ -54,6 +57,23 @@ public class BacktrackingVisualGUI extends JDialog
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
+		
+		g.drawString("Root", getX(0, 0), 100);
+	}
+	
+	private int getX(int level, int num){
+		int width = this.getContentPane().getWidth() - this.getContentPane().getInsets().left - this.getContentPane().getInsets().right - 100;
+		int ret = this.getContentPane().getInsets().left + 50;
+		
+		int n = (int) Math.pow(2, level);
+		
+		ret += (width / n) * num;
+				
+		return ret;
+	}
+	
+	private int getY(int level){
+		return 0;
 	}
 	
 }

@@ -65,6 +65,8 @@ public class BacktrackingGUI extends JFrame
 	
 	private Vector<String> solutions = new Vector();
 	
+	private int maxWeight = 0;
+	
 	/**
 	 * Die Elemente (Gewicht, Wert)
 	 */
@@ -88,9 +90,7 @@ public class BacktrackingGUI extends JFrame
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(openDialog()){
-					readFile();
-				}
+				openDialog();
 			}
 		});
 		this.buttonChooseFile.setFocusPainted(false);
@@ -129,8 +129,8 @@ public class BacktrackingGUI extends JFrame
 					textWeight.setText(textWeight.getText().replaceAll(" ", ""));
 					
 					try{
-						Integer.parseInt(textWeight.getText());
-					} catch (NumberFormatException er){
+						maxWeight = Integer.parseInt(textWeight.getText());
+					} catch (NumberFormatException ex){
 						JOptionPane.showMessageDialog(BacktrackingGUI.this, "Bitte geben Sie eine gültige, natürliche Zahl ein", "Achtung", JOptionPane.WARNING_MESSAGE);
 						textWeight.requestFocus();
 					}
@@ -165,7 +165,9 @@ public class BacktrackingGUI extends JFrame
 			public void actionPerformed(ActionEvent e) {
 				if(path != null){
 					try{
-						int maxWeight = Integer.parseInt(textWeight.getText());
+						//Während das Programm läuft kann die Datei noch bearbeitet werden.
+						//Deshalb erst einlesen beim Berechnen
+						readFile();
 						
 						try{
 							int[] best = Backtracking.getBest(items, maxWeight);
@@ -184,8 +186,12 @@ public class BacktrackingGUI extends JFrame
 							textSolution.setText("Gewicht: " + weight + ", Wert: " + value);
 							listAll.setListData(solutions);
 							
+							if(best.length == 0){
+								JOptionPane.showMessageDialog(BacktrackingGUI.this, "Keine Lösung!", "Information", JOptionPane.INFORMATION_MESSAGE);
+							}
+							
 						}catch(BacktrackingException exc){
-							JOptionPane.showMessageDialog(BacktrackingGUI.this, exc.getMessage(), "Information", JOptionPane.INFORMATION_MESSAGE);
+							JOptionPane.showMessageDialog(BacktrackingGUI.this, exc.getMessage(), "Achtung", JOptionPane.WARNING_MESSAGE);
 							listAll.setListData(noSolutions);
 							textSolution.setText("");
 						}
@@ -218,12 +224,11 @@ public class BacktrackingGUI extends JFrame
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(path != null){
+					readFile();
 					if(items.length <= 4){
 						try{
-							int maxWeight = Integer.parseInt(textWeight.getText());
-							
 							try{
-								new BacktrackingVisualGUI(BacktrackingGUI.this, Backtracking.getVerlauf(items, maxWeight)).setVisible(true);
+								new BacktrackingVisualGUI(BacktrackingGUI.this, Backtracking.getVerlauf(items, maxWeight), itemsName).setVisible(true);
 							}catch(BacktrackingException exc){
 								JOptionPane.showMessageDialog(BacktrackingGUI.this, exc.getMessage(), "Information", JOptionPane.INFORMATION_MESSAGE);
 							}

@@ -255,7 +255,7 @@ public class BacktrackingGUI extends JFrame
 					if(items.length <= MAX_LINES_VIS){
 						try{
 							try{
-								new BacktrackingVisualGUI(BacktrackingGUI.this, Backtracking.getVerlauf(items, maxWeight), itemsName).setVisible(true);
+								new BacktrackingVisualGUI(BacktrackingGUI.this, Backtracking.getVerlauf(items, maxWeight)).setVisible(true);
 							}catch(BacktrackingException exc){
 								JOptionPane.showMessageDialog(BacktrackingGUI.this, exc.getMessage(), "Information", JOptionPane.INFORMATION_MESSAGE);
 							}

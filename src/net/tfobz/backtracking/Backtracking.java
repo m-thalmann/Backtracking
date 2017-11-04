@@ -8,7 +8,6 @@ public class Backtracking{
 	private static int[][] items = null;
 	private static int maxSchranke = 0;
 	private static Knoten best = null;
-	@SuppressWarnings("unused")
 	private static KnotenExt bestExt = null;
 	
 	private static ArrayList<KnotenExt> verlauf = null;

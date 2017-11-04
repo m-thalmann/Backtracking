@@ -18,16 +18,14 @@ public class BacktrackingVisualGUI extends JDialog
 {
 
 	private ArrayList<KnotenExt> verlauf;
-	private String[] names;
 	private int pos = 0;
 	private int size = 0;
 	private JTree tree = new JTree();
 	
-	public BacktrackingVisualGUI(JFrame owner, ArrayList<KnotenExt> verlauf, String[] names) {
+	public BacktrackingVisualGUI(JFrame owner, ArrayList<KnotenExt> verlauf) {
 		super(owner, "Backtracking - Visualisieren");
 		
 		this.verlauf = verlauf;
-		this.names = names;
 		this.size = verlauf.size();
 		
 		setResizable(false);

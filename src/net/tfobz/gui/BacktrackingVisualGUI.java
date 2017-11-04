@@ -10,11 +10,9 @@ import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.TreeModel;
+import javax.swing.tree.DefaultTreeModel;
 
 import net.tfobz.backtracking.KnotenExt;
-
-import javax.swing.tree.DefaultTreeModel;
 
 public class BacktrackingVisualGUI extends JDialog
 {
@@ -113,8 +111,26 @@ public class BacktrackingVisualGUI extends JDialog
 		tree.setModel(new DefaultTreeModel(
 				new DefaultMutableTreeNode("Start") {
 					{
+						ArrayList<DefaultMutableTreeNode> list = new ArrayList<>();
+						
 						for(int i = 0; i < pos; i++){
-							add(new DefaultMutableTreeNode(verlauf.get(i).getContent()));
+							KnotenExt k = verlauf.get(i);
+							list.add(new DefaultMutableTreeNode(k.toString()));
+							
+							if(k.isLinks()){
+								if(i == 0){
+									add(list.get(0));
+								}else{
+									list.get(i - 1).add(list.get(i));
+								}
+							}else{
+								for(int j = i; j >= 0; j--){
+									if(verlauf.get(j).getLevel() + 1 == verlauf.get(i).getLevel()){
+										System.out.println("Found: " + j);
+										list.get(j).add(list.get(i));
+									}
+								}
+							}
 						}
 					}
 				}

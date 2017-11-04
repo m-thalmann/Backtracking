@@ -165,6 +165,18 @@ public class BacktrackingGUI extends JFrame
 			public void keyPressed(KeyEvent e) {
 				if(e.getKeyCode() == KeyEvent.VK_ENTER){
 					//Beim drücken der Enter-Taste im Textfeld, den Berechnen-Knopf drücken
+					
+					//Überprüfung des Inhaltes
+					if(!textWeight.getText().isEmpty()){
+						textWeight.setText(textWeight.getText().replaceAll(" ", ""));
+						
+						try{
+							maxWeight = Integer.parseInt(textWeight.getText());
+						} catch (NumberFormatException ex){
+							JOptionPane.showMessageDialog(BacktrackingGUI.this, "Bitte geben Sie eine gültige, natürliche Zahl ein", "Achtung", JOptionPane.WARNING_MESSAGE);
+							textWeight.requestFocus();
+						}
+					}
 					buttonCompute.doClick();
 				}
 			}

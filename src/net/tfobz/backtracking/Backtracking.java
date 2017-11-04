@@ -91,7 +91,7 @@ public class Backtracking{
 		if(level == items.length){
 			maxSchranke = k.getValue();
 			
-			if(k.getValue() > best.getValue()){
+			if(k.getValue() > bestExt.getValue()){
 				bestExt = k;
 			}
 		}else{

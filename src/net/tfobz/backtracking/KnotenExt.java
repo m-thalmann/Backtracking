@@ -1,5 +1,7 @@
 package net.tfobz.backtracking;
 
+import java.util.ArrayList;
+
 public class KnotenExt extends Knoten
 {
 	private int level = 0;
@@ -30,6 +32,10 @@ public class KnotenExt extends Knoten
 	}
 	
 	public KnotenExt clone(){
-		return (KnotenExt) super.clone();
+		KnotenExt k = new KnotenExt();
+		k.content = (ArrayList<Integer>) this.content.clone();
+		k.weight = this.weight;
+		k.value = this.value;
+		return k;
 	}
 }

@@ -27,11 +27,12 @@ import javax.swing.table.TableColumn;
  */
 public class ManuellGUI extends JDialog {
 	
-	String[] columnName = {"Name","Gewicht","Wert"};
-	String[][] data;
-	String path;
-	int[][] items;
-	String[] itemsName;
+	private String[] columnName = {"Name","Gewicht","Wert"};
+	private String[][] data;
+	private String path;
+	private int[][] items;
+	private String[] itemsName;
+	private JTable manuellTable;
 	
 	public ManuellGUI(JFrame owner, String path,int[][] items, String[] itemsName) {
 		
@@ -41,7 +42,6 @@ public class ManuellGUI extends JDialog {
 		this.getContentPane().setLayout(null);
 		this.setResizable(false);
 		
-		JTable manuellTable;
 		if(path == null || path.isEmpty()) {
 			manuellTable= new JTable(new Object[1000][3],columnName);
 		}else {
@@ -93,14 +93,16 @@ public class ManuellGUI extends JDialog {
 		this.add(buttonCancel);
 		
 		this.setVisible(true);
-		
+	
 	}
+	
 	
 	private void writeFile() throws IOException {
 		FileWriter fw = new FileWriter(new File("path"));
         for(int i = 0 ; i < items.length ; i++) {
-        	fw.write(itemsName[i]+";"+data[i][0]+";"+data[i][1]+";"+"\n");
+        	fw.write(itemsName[i]+";"+ ((manuellTable.getValueAt(i, 0)).toString()) +";"+((manuellTable.getValueAt(i, 1)).toString())+";"+"\n");
         }
+        
         fw.flush();
         fw.close();
 	}

@@ -34,7 +34,7 @@ public class ManuellGUI extends JDialog {
 	private String[] itemsName;
 	private JTable manuellTable;
 	
-	public ManuellGUI(JFrame owner, String path,int[][] items, String[] itemsName) {
+	public ManuellGUI(JFrame owner, String path,int[][] items, String[] itemsName, int maxElements) {
 		
 		super(owner);
 		this.setTitle("Manuelle Eingabe");
@@ -42,8 +42,10 @@ public class ManuellGUI extends JDialog {
 		this.getContentPane().setLayout(null);
 		this.setResizable(false);
 		
+		this.path = path;
+		
 		if(path == null || path.isEmpty()) {
-			manuellTable= new JTable(new Object[1000][3],columnName);
+			manuellTable= new JTable(new Object[maxElements][3],columnName);
 		}else {
 			data = new String[1000][items[0].length+1];
 			
@@ -69,6 +71,7 @@ public class ManuellGUI extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				try{
 					writeFile();
+					dispose();
 				}catch(IOException exc) {
 					JOptionPane.showMessageDialog(ManuellGUI.this, "Es gab einen Fehler beim Schreiben","Fehler" , JOptionPane.ERROR_MESSAGE);
 				}
@@ -98,9 +101,15 @@ public class ManuellGUI extends JDialog {
 	
 	
 	private void writeFile() throws IOException {
-		FileWriter fw = new FileWriter(new File("path"));
-        for(int i = 0 ; i < items.length ; i++) {
-        	fw.write(itemsName[i]+";"+ ((manuellTable.getValueAt(i, 0)).toString()) +";"+((manuellTable.getValueAt(i, 1)).toString())+";"+"\n");
+		File f = new File(path);
+		f.createNewFile();
+		FileWriter fw = new FileWriter(f);
+		int size = 0;
+		while(manuellTable.getValueAt(size, 0) != null) {
+			size++;
+		}
+        for(int i = 0 ; i < size ; i++) {
+        	fw.write(manuellTable.getValueAt(i, 0)+";"+ ((manuellTable.getValueAt(i, 1)).toString()) +";"+((manuellTable.getValueAt(i, 2)).toString())+";"+"\n");
         }
         
         fw.flush();

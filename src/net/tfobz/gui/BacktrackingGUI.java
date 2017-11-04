@@ -118,7 +118,7 @@ public class BacktrackingGUI extends JFrame
 			public void actionPerformed(ActionEvent e) {
 				//Ruft ein Fenster auf, in welchem eine Tabelle mit den Elementen bearbeitet werden kann
 				readFile();
-				ManuellGUI m = new ManuellGUI(BacktrackingGUI.this,path,items,itemsName);
+				ManuellGUI m = new ManuellGUI(BacktrackingGUI.this,path,items,itemsName, MAX_LINES);
 			}
 		});
 		this.buttonManual.setMnemonic('M');

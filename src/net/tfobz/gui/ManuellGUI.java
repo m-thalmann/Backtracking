@@ -2,6 +2,11 @@ package net.tfobz.gui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -24,6 +29,9 @@ public class ManuellGUI extends JDialog {
 	
 	String[] columnName = {"Name","Gewicht","Wert"};
 	String[][] data;
+	String path;
+	int[][] items;
+	String[] itemsName;
 	
 	public ManuellGUI(JFrame owner, String path,int[][] items, String[] itemsName) {
 		
@@ -37,7 +45,7 @@ public class ManuellGUI extends JDialog {
 		if(path == null || path.isEmpty()) {
 			manuellTable= new JTable(new Object[1000][3],columnName);
 		}else {
-			data = new String[items.length][items[0].length+1];
+			data = new String[1000][items[0].length+1];
 			
 			for(int i = 0 ; i < items.length ; i++) {
 				for(int j = 0 ; j < items[0].length ; j++) {
@@ -59,8 +67,11 @@ public class ManuellGUI extends JDialog {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
-				
+				try{
+					writeFile();
+				}catch(IOException exc) {
+					JOptionPane.showMessageDialog(ManuellGUI.this, "Es gab einen Fehler beim Schreiben","Fehler" , JOptionPane.ERROR_MESSAGE);
+				}
 				
 			}
 		});
@@ -83,8 +94,15 @@ public class ManuellGUI extends JDialog {
 		
 		this.setVisible(true);
 		
-		
-		
+	}
+	
+	private void writeFile() throws IOException {
+		FileWriter fw = new FileWriter(new File("path"));
+        for(int i = 0 ; i < items.length ; i++) {
+        	fw.write(itemsName[i]+";"+data[i][0]+";"+data[i][1]+";"+"\n");
+        }
+        fw.flush();
+        fw.close();
 	}
 	
 	

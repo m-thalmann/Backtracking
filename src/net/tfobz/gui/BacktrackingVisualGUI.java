@@ -12,19 +12,20 @@ import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeModel;
 
-import net.tfobz.backtracking.Knoten;
+import net.tfobz.backtracking.KnotenExt;
+
 import javax.swing.tree.DefaultTreeModel;
 
 public class BacktrackingVisualGUI extends JDialog
 {
 
-	private ArrayList<Knoten> verlauf;
+	private ArrayList<KnotenExt> verlauf;
 	private String[] names;
 	private int pos = 0;
 	private int size = 0;
 	private JTree tree = new JTree();
 	
-	public BacktrackingVisualGUI(JFrame owner, ArrayList<Knoten> verlauf, String[] names) {
+	public BacktrackingVisualGUI(JFrame owner, ArrayList<KnotenExt> verlauf, String[] names) {
 		super(owner, "Backtracking - Visualisieren");
 		
 		this.verlauf = verlauf;
@@ -105,7 +106,7 @@ public class BacktrackingVisualGUI extends JDialog
 		showVerlauf();
 		
 		for(int i = 0; i < size; i++)
-			System.out.println(verlauf.get(i).toString(true));
+			System.out.println(verlauf.get(i).toString());
 	}
 	
 	private void showVerlauf(){
@@ -119,4 +120,5 @@ public class BacktrackingVisualGUI extends JDialog
 				}
 			));
 	}
+	
 }

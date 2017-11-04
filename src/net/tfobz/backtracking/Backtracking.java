@@ -8,8 +8,10 @@ public class Backtracking{
 	private static int[][] items = null;
 	private static int maxSchranke = 0;
 	private static Knoten best = null;
+	@SuppressWarnings("unused")
+	private static KnotenExt bestExt = null;
 	
-	private static ArrayList<Knoten> verlauf = null;
+	private static ArrayList<KnotenExt> verlauf = null;
 	
 	public static int[] getBest(int[][] i, int maxWeight) throws BacktrackingException{
 		if(i == null){
@@ -46,11 +48,7 @@ public class Backtracking{
 			l.getContent().add(level);
 			l.setWeight(l.getWeight() + items[level][0]);
 			l.setValue(l.getValue() + items[level][1]);
-			l.setLevel(level+1);
-			l.setLinks(true);
 			r = k.clone();
-			r.setLevel(level+1);
-			r.setLinks(false);
 			
 			l.setSchranke(l.getValue());
 			r.setSchranke(r.getValue());
@@ -67,7 +65,7 @@ public class Backtracking{
 		}
 	}
 
-	public static ArrayList<Knoten> getVerlauf(int[][] i, int maxWeight) throws BacktrackingException{
+	public static ArrayList<KnotenExt> getVerlauf(int[][] i, int maxWeight) throws BacktrackingException{
 		if(i == null){
 			return null;
 		}
@@ -81,24 +79,24 @@ public class Backtracking{
 		items = i;
 		max_weigth = maxWeight;
 		maxSchranke = 0;
-		best = new Knoten();
+		bestExt = new KnotenExt();
 		verlauf = new ArrayList<>();
 		
-		computeVerlauf(new Knoten(), 0);
+		computeVerlauf(new KnotenExt(), 0);
 		
 		return verlauf;
 	}
 	
-	private static void computeVerlauf(Knoten k, int level){
+	private static void computeVerlauf(KnotenExt k, int level){
 		if(level == items.length){
 			maxSchranke = k.getValue();
 			
 			if(k.getValue() > best.getValue()){
-				best = k;
+				bestExt = k;
 			}
 		}else{
-			Knoten l = null;
-			Knoten r = null;
+			KnotenExt l = null;
+			KnotenExt r = null;
 			l = k.clone();
 			l.getContent().add(level);
 			l.setWeight(l.getWeight() + items[level][0]);

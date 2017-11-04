@@ -4,15 +4,12 @@ import java.util.ArrayList;
 
 public class Knoten
 {
-	private ArrayList<Integer> content = new ArrayList<>();
+	protected ArrayList<Integer> content = new ArrayList<>();
 	
-	private int weight = 0;
-	private int value = 0;
+	protected int weight = 0;
+	protected int value = 0;
 	
-	private int schranke = 0;
-	
-	private int level = 0;
-	private boolean links = true;
+	protected int schranke = 0;
 	
 	public ArrayList<Integer> getContent() {
 		return content;
@@ -30,14 +27,6 @@ public class Knoten
 		return schranke;
 	}
 	
-	public int getLevel() {
-		return level;
-	}
-
-	public boolean isLinks() {
-		return links;
-	}
-
 	public int[] getElements(){
 		int[] ret = new int[this.content.size()];
 		
@@ -64,14 +53,6 @@ public class Knoten
 		this.schranke = schranke;
 	}
 	
-	public void setLevel(int level) {
-		this.level = level;
-	}
-	
-	public void setLinks(boolean links) {
-		this.links = links;
-	}
-
 	public Knoten clone(){
 		Knoten k = new Knoten();
 		k.content = (ArrayList<Integer>) this.content.clone();
@@ -82,14 +63,6 @@ public class Knoten
 	
 	public String toString(){
 		return content.toString() + " w = " + weight + ", v = " + value + ", Schranke: " + schranke;
-	}
-	
-	public String toString(boolean extendet){
-		if(extendet) {
-			return content.toString() + " w = " + weight + ", v = " + value + ", Schranke: " + schranke + ", Level: " + level + ", " + ((links) ? "Links" : "Rechts");	
-		}else {
-			return this.toString();
-		}
 	}
 	
 }

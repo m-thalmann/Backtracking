@@ -38,7 +38,7 @@ import net.tfobz.backtracking.BacktrackingException;
 public class BacktrackingGUI extends JFrame
 {
 	private final int MAX_LINES = 1000;
-	
+	private final int MAX_LINES_VIS = 6;	
 	
 	private JButton buttonChooseFile = new JButton("Datei wählen...");
 	private JButton buttonHelpFile = new JButton("?");
@@ -240,7 +240,7 @@ public class BacktrackingGUI extends JFrame
 			public void actionPerformed(ActionEvent e) {
 				if(path != null){
 					readFile();
-					if(items.length <= 4){
+					if(items.length <= MAX_LINES_VIS){
 						try{
 							try{
 								new BacktrackingVisualGUI(BacktrackingGUI.this, Backtracking.getVerlauf(items, maxWeight), itemsName).setVisible(true);
@@ -253,7 +253,7 @@ public class BacktrackingGUI extends JFrame
 						}
 					}
 					else{
-						JOptionPane.showMessageDialog(BacktrackingGUI.this, "Zu viele Elemente zum visualisieren (max. 4)!", "Achtung", JOptionPane.WARNING_MESSAGE);
+						JOptionPane.showMessageDialog(BacktrackingGUI.this, "Zu viele Elemente zum visualisieren (max. " + MAX_LINES_VIS + ")!", "Achtung", JOptionPane.WARNING_MESSAGE);
 					}
 				}
 				else{
@@ -375,8 +375,6 @@ public class BacktrackingGUI extends JFrame
 	    	
 	    	if(components.length != 3){
 	    		JOptionPane.showMessageDialog(this, "Falsches Format der Datei!", "Achtung", JOptionPane.WARNING_MESSAGE);
-	    		this.path = null;
-	    		this.textPath.setText("Falsches Format der Datei");
 	    		
 	    		return;
 	    	}
@@ -387,8 +385,6 @@ public class BacktrackingGUI extends JFrame
 	    		items[i][1] = Integer.parseInt(components[2]);
 	    	} catch (NumberFormatException ex){
 	    		JOptionPane.showMessageDialog(this, "Falsches Format der Datei!", "Achtung", JOptionPane.WARNING_MESSAGE);
-	    		this.path = null;
-	    		this.textPath.setText("Falsches Format der Datei");
 	    		
 	    		return;
 	    	}

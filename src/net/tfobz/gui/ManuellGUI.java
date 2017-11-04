@@ -9,6 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.table.TableColumn;
 
 /**
  * Diese Klasse öffnet ein Fenster in dem die von openDialog() gewählte Datei in einem  JTable dargestellt wird.
@@ -21,49 +22,66 @@ import javax.swing.JTable;
  */
 public class ManuellGUI extends JDialog {
 	
-	public ManuellGUI(JFrame owner) {
+	String[] columnName = {"Name","Gewicht","Wert"};
+	String[][] data;
+	
+	public ManuellGUI(JFrame owner, String path,int[][] items, String[] itemsName) {
 		
-		JDialog manuell = new JDialog(owner);
-		manuell.setTitle("Manuelle Eingabe");
-		manuell.setBounds(250,250,700,300);
-		manuell.getContentPane().setLayout(null);
+		super(owner);
+		this.setTitle("Manuelle Eingabe");
+		this.setBounds(250,250,700,300);
+		this.getContentPane().setLayout(null);
+		this.setResizable(false);
 		
-		JTable manuelTable = new JTable();
-		manuelTable.setEnabled(true);
+		JTable manuellTable;
+		if(path == null || path.isEmpty()) {
+			manuellTable= new JTable(new Object[1000][3],columnName);
+		}else {
+			data = new String[items.length][items[0].length+1];
+			
+			for(int i = 0 ; i < items.length ; i++) {
+				for(int j = 0 ; j < items[0].length ; j++) {
+					data[i][j+1] = String.valueOf(items[i][j]);
+				}
+				data[i][0] = itemsName[i];
+			}
+			
+			manuellTable = new JTable(data, columnName);
+		}
 		
-		JScrollPane scroll = new JScrollPane(manuelTable); 
+		JScrollPane scroll = new JScrollPane(manuellTable); 
 		scroll.setBounds(10,10,670,200);
-		manuell.add(scroll);
+		this.add(scroll);
 		
 		JButton buttonSave = new JButton("Speichern");
-		buttonSave.setBounds(470, 220, 100, 40);
+		buttonSave.setBounds(464, 220, 106, 40);
 		buttonSave.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+				
+				
 				
 			}
 		});
-		manuell.add(buttonSave);
+		this.add(buttonSave);
 		
 		JButton buttonCancel = new JButton("Abbrechen");
-		buttonCancel.setBounds(570, 220, 100, 40);
+		buttonCancel.setBounds(570, 220, 106, 40);
 		buttonCancel.addActionListener(new ActionListener() {
 			//Bricht die Manuelle Eingabe ab ohne die Änderungen zu sichern
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int cancel = JOptionPane.showConfirmDialog(ManuellGUI.this, "Wollen Sie wirklich abbrechen?", "Sind Sie sicher?", JOptionPane.OK_CANCEL_OPTION);
-				if(cancel == JOptionPane.OK_CANCEL_OPTION) {
-					setVisible(false);
-					dispose();
+				if(cancel != JOptionPane.OK_CANCEL_OPTION) {
+					ManuellGUI.this.dispose();
 				}
 				
 			}
 		});
-		manuell.add(buttonCancel);
+		this.add(buttonCancel);
 		
-		manuell.setVisible(true);
+		this.setVisible(true);
 		
 		
 		

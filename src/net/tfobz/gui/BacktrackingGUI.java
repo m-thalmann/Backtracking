@@ -113,12 +113,12 @@ public class BacktrackingGUI extends JFrame
 		this.buttonHelpFile.setMnemonic('?');
 		this.getContentPane().add(this.buttonHelpFile);
 		
-		this.buttonManual.setBounds(440, 10, 50, 30);
+		this.buttonManual.setBounds(435, 10, 45, 30);
 		this.buttonManual.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				ManuellGUI m = new ManuellGUI(BacktrackingGUI.this);
+				ManuellGUI m = new ManuellGUI(BacktrackingGUI.this,path,items,itemsName);
 			}
 		});
 		this.buttonManual.setMnemonic('M');

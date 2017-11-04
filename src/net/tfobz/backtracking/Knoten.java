@@ -85,7 +85,11 @@ public class Knoten
 	}
 	
 	public String toString(boolean extendet){
-		return content.toString() + " w = " + weight + ", v = " + value + ", Schranke: " + schranke + ", Level: " + level + ", " + ((links) ? "Links" : "Rechts");
+		if(extendet) {
+			return content.toString() + " w = " + weight + ", v = " + value + ", Schranke: " + schranke + ", Level: " + level + ", " + ((links) ? "Links" : "Rechts");	
+		}else {
+			return this.toString();
+		}
 	}
 	
 }

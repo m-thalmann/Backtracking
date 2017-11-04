@@ -61,7 +61,7 @@ public class BacktrackingVisualGUI extends JDialog
 		g.drawString("Root", getX(0, 0), 100);
 	}
 	
-	private int getX(int level, int num){
+	private int getX(int level, int num) {
 		int width = this.getContentPane().getWidth() - this.getContentPane().getInsets().left - this.getContentPane().getInsets().right - 100;
 		int ret = this.getContentPane().getInsets().left + 50;
 		
@@ -72,7 +72,7 @@ public class BacktrackingVisualGUI extends JDialog
 		return ret;
 	}
 	
-	private int getY(int level){
+	private int getY(int level) {
 		return 0;
 	}
 	

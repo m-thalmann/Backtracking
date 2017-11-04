@@ -102,9 +102,6 @@ public class BacktrackingVisualGUI extends JDialog
 		setModal(true);
 		
 		showVerlauf();
-		
-		for(int i = 0; i < size; i++)
-			System.out.println(verlauf.get(i).toString());
 	}
 	
 	private void showVerlauf(){
@@ -124,11 +121,28 @@ public class BacktrackingVisualGUI extends JDialog
 									list.get(i - 1).add(list.get(i));
 								}
 							}else{
-								for(int j = i; j >= 0; j--){
+								boolean found = false;
+								int j = i;
+								for(; j >= 0; j--){
 									if(verlauf.get(j).getLevel() + 1 == verlauf.get(i).getLevel()){
-										System.out.println("Found: " + j);
-										list.get(j).add(list.get(i));
+										if(verlauf.get(j).getContent().size() == verlauf.get(i).getContent().size()){
+											boolean ok = true;
+											for(int l = 0; l < verlauf.get(j).getContent().size(); l++){
+												if(verlauf.get(j).getContent().get(l) != verlauf.get(i).getContent().get(l)){
+													ok = false;
+												}
+											}
+											
+											if(ok){
+												found = true;
+												list.get(j).add(list.get(i));
+											}
+										}
 									}
+								}
+								
+								if(!found){
+									add(list.get(i));
 								}
 							}
 						}

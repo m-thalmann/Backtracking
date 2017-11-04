@@ -1,5 +1,6 @@
 package net.tfobz.gui;
 
+import java.awt.Button;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,6 +21,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -39,10 +41,12 @@ public class BacktrackingGUI extends JFrame
 {
 	private final int MAX_LINES = 1000;
 	
+	
 	private JButton buttonChooseFile = new JButton("Datei wählen...");
 	private JButton buttonHelpFile = new JButton("?");
 	private JButton buttonCompute = new JButton("Berechnen");
 	private JButton buttonVisualize = new JButton("Visuell darstellen");
+	private JButton buttonManual = new JButton("M");
 	
 	private JTextField textPath = new JTextField();
 	private JTextField textSolution = new JTextField("");
@@ -109,7 +113,18 @@ public class BacktrackingGUI extends JFrame
 		this.buttonHelpFile.setMnemonic('?');
 		this.getContentPane().add(this.buttonHelpFile);
 		
-		this.textPath.setBounds(230, 10, 250, 30);
+		this.buttonManual.setBounds(440, 10, 50, 30);
+		this.buttonManual.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ManuellGUI m = new ManuellGUI(BacktrackingGUI.this);
+			}
+		});
+		this.buttonManual.setMnemonic('M');
+		this.getContentPane().add(this.buttonManual);
+		
+		this.textPath.setBounds(230, 10, 200, 30);
 		this.textPath.setEditable(false);
 		this.getContentPane().add(this.textPath);
 		

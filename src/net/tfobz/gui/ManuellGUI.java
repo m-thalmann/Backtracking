@@ -2,19 +2,18 @@ package net.tfobz.gui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.table.TableColumn;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  * Diese Klasse öffnet ein Fenster in dem die von openDialog() gewählte Datei in einem  JTable dargestellt wird.
@@ -33,6 +32,7 @@ public class ManuellGUI extends JDialog {
 	private int[][] items;
 	private String[] itemsName;
 	private JTable manuellTable;
+	private JFileChooser fc;
 	
 	public ManuellGUI(JFrame owner, String path,int[][] items, String[] itemsName, int maxElements) {
 		
@@ -47,7 +47,7 @@ public class ManuellGUI extends JDialog {
 		this.path = path;
 		
 		if(path == null || path.isEmpty()) {
-			manuellTable= new JTable(new Object[maxElements][3],columnName);
+			manuellTable = new JTable(new Object[maxElements][3],columnName);
 		}else {
 			data = new String[1000][items[0].length+1];
 			
@@ -73,13 +73,14 @@ public class ManuellGUI extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				try{
 					writeFile();
-					dispose();
+					//TODO: Hide on click
 				}catch(IOException exc) {
 					JOptionPane.showMessageDialog(ManuellGUI.this, "Es gab einen Fehler beim Schreiben","Fehler" , JOptionPane.ERROR_MESSAGE);
 				}
 				
 			}
 		});
+		buttonSave.setFocusPainted(false);
 		this.add(buttonSave);
 		
 		JButton buttonCancel = new JButton("Abbrechen");
@@ -95,6 +96,7 @@ public class ManuellGUI extends JDialog {
 				
 			}
 		});
+		buttonCancel.setFocusPainted(false);
 		this.add(buttonCancel);
 		
 		this.setVisible(true);
@@ -103,20 +105,52 @@ public class ManuellGUI extends JDialog {
 	
 	
 	private void writeFile() throws IOException {
+		if(path == null) {
+			fc = new JFileChooser();
+			fc.setMultiSelectionEnabled(false);
+			fc.setFileFilter(new FileNameExtensionFilter("CSV Dateien", "csv"));
+			fc.setAcceptAllFileFilterUsed(false);
+			
+			if(fc.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
+				
+				path = fc.getSelectedFile().getAbsolutePath();
+				
+				if(!path.endsWith(".csv")) {
+					path += ".csv";
+				}
+				
+				File file = new File(path);
+				
+				if(file.isFile()) {
+					if(JOptionPane.showConfirmDialog(this, "Die Datei: \""+ path + "\" existiert bereits. Überschreiben?") == JOptionPane.OK_OPTION) {
+						file.delete();
+					}
+					else{
+						path = null;
+						return;
+					}
+				}
+			}
+		}
+		
+		String nl = System.getProperty( "line.separator" );
+		
 		File f = new File(path);
 		f.createNewFile();
 		FileWriter fw = new FileWriter(f);
-		int size = 0;
-		while(manuellTable.getValueAt(size, 0) != null) {
-			size++;
-		}
-        for(int i = 0 ; i < size ; i++) {
-        	fw.write(manuellTable.getValueAt(i, 0)+";"+ ((manuellTable.getValueAt(i, 1)).toString()) +";"+((manuellTable.getValueAt(i, 2)).toString())+";"+"\n");
-        }
+		int i = 0;
+		
+		while(manuellTable.getValueAt(i, 0) != null && manuellTable.getValueAt(i, 1) != null && manuellTable.getValueAt(i, 2) != null) {
+			fw.write(manuellTable.getValueAt(i, 0)+ ";" + ((manuellTable.getValueAt(i, 1)).toString()) + ";" + ((manuellTable.getValueAt(i, 2)).toString()) + nl);
+			i++;
+    }
         
-        fw.flush();
-        fw.close();
+    fw.flush();
+    fw.close();
 	}
-	
+
+	public String getPath() {
+		return path;
+	}
 	
 }

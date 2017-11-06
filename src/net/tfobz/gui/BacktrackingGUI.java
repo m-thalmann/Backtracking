@@ -44,7 +44,7 @@ public class BacktrackingGUI extends JFrame
 	private JButton buttonHelpFile = new JButton("?");
 	private JButton buttonCompute = new JButton("Berechnen");
 	private JButton buttonVisualize = new JButton("Visuell darstellen");
-	private JButton buttonManual = new JButton("M");
+	private JButton buttonManual = new JButton("Bearbeiten...");
 	
 	private JTextField textPath = new JTextField();
 	private JTextField textSolution = new JTextField("");
@@ -83,7 +83,7 @@ public class BacktrackingGUI extends JFrame
 		this.setLayout(null);
 		this.setResizable(false);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setSize(500, 400);
+		this.setSize(500, 440);
 		this.setLocation(Toolkit.getDefaultToolkit().getScreenSize().width / 2 - this.getSize().width / 2,
 				Toolkit.getDefaultToolkit().getScreenSize().height / 2 - this.getSize().height / 2);
 		
@@ -105,13 +105,14 @@ public class BacktrackingGUI extends JFrame
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				//Hilfe anzeigen
+				new FileHelpGUI(BacktrackingGUI.this);
 			}
 		});
 		this.buttonHelpFile.setFocusPainted(false);
 		this.buttonHelpFile.setMnemonic('?');
 		this.getContentPane().add(this.buttonHelpFile);
 		
-		this.buttonManual.setBounds(435, 10, 45, 30);
+		this.buttonManual.setBounds(230, 50, 250, 30);
 		this.buttonManual.addActionListener(new ActionListener() {
 			
 			@Override
@@ -121,20 +122,21 @@ public class BacktrackingGUI extends JFrame
 				ManuellGUI m = new ManuellGUI(BacktrackingGUI.this,path,items,itemsName, MAX_LINES);
 			}
 		});
-		this.buttonManual.setMnemonic('M');
+		this.buttonManual.setMnemonic('E');
+		this.buttonManual.setFocusPainted(false);
 		this.getContentPane().add(this.buttonManual);
 		
-		this.textPath.setBounds(230, 10, 200, 30);
+		this.textPath.setBounds(230, 10, 250, 30);
 		this.textPath.setEditable(false);
 		this.getContentPane().add(this.textPath);
 		
-		this.labelWeight.setBounds(10, 50, 200, 30);
+		this.labelWeight.setBounds(10, 90, 200, 30);
 		this.labelWeight.setHorizontalAlignment(SwingConstants.CENTER);
 		this.labelWeight.setDisplayedMnemonic('G');
 		this.labelWeight.setLabelFor(this.textWeight);
 		this.getContentPane().add(this.labelWeight);
 		
-		this.textWeight.setBounds(230, 50, 250, 30);
+		this.textWeight.setBounds(230, 90, 250, 30);
 		this.textWeight.addFocusListener(new FocusListener()
 		{
 			@Override
@@ -184,7 +186,7 @@ public class BacktrackingGUI extends JFrame
 		});
 		this.getContentPane().add(this.textWeight);
 		
-		this.buttonCompute.setBounds(10, 90, 200, 30);
+		this.buttonCompute.setBounds(10, 130, 200, 30);
 		this.buttonCompute.setFocusPainted(false);
 		this.buttonCompute.addActionListener(new ActionListener()
 		{
@@ -235,16 +237,16 @@ public class BacktrackingGUI extends JFrame
 		this.buttonCompute.setMnemonic('B');
 		this.getContentPane().add(this.buttonCompute);
 		
-		this.textSolution.setBounds(230, 90, 250, 30);
+		this.textSolution.setBounds(230, 130, 250, 30);
 		this.textSolution.setEditable(false);
 		this.getContentPane().add(this.textSolution);
 		
 		listAll.setListData(noSolutions);
 		this.scrollListAll = new JScrollPane(this.listAll);
-		this.scrollListAll.setBounds(230, 130, 250, 226);
+		this.scrollListAll.setBounds(230, 170, 250, 226);
 		this.getContentPane().add(this.scrollListAll);
 		
-		this.buttonVisualize.setBounds(10, 325, 200, 30);
+		this.buttonVisualize.setBounds(10, 365, 200, 30);
 		this.buttonVisualize.setFocusPainted(false);
 		this.buttonVisualize.addActionListener(new ActionListener()
 		{

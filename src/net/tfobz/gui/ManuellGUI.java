@@ -38,9 +38,11 @@ public class ManuellGUI extends JDialog {
 		
 		super(owner);
 		this.setTitle("Manuelle Eingabe");
-		this.setBounds(250,250,700,300);
+		this.setSize(700,300);
 		this.getContentPane().setLayout(null);
 		this.setResizable(false);
+		this.setModal(true);
+		this.setLocationRelativeTo(owner);
 		
 		this.path = path;
 		

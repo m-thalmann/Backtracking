@@ -2,6 +2,13 @@ package net.tfobz.backtracking;
 
 import java.util.ArrayList;
 
+/**
+ * Diese Klasse besitzt zusätzlich zu den Eigenschaften der Klasse Knoten noch zwei Eigenschaften:
+ * 	- links: Wenn true wurde die Zahl des Levels eingepackt, sonst nicht
+ * 	- level: Auf welchem Level sich der Knoten befindet
+ *
+ */
+
 public class KnotenExt extends Knoten
 {
 	private int level = 0;

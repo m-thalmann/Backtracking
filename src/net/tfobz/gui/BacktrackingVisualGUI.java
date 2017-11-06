@@ -14,6 +14,17 @@ import javax.swing.tree.DefaultTreeModel;
 
 import net.tfobz.backtracking.KnotenExt;
 
+/**
+ * Dieses Fenster stellt den Verlauf der Berechnung durch das Backtracking
+ * in Form eines JTrees dar. In jedem Ast können maximal zwei Unteräste (usw.) sein:
+ * einer für links (einpacken) und einer für rechts (nicht einpacken)
+ * Durch klicken der 4 Knöpfe kann man sich den Verlauf Schritt für Schritt anzeigen
+ * lassen.
+ * 
+ * @author matth
+ *
+ */
+
 public class BacktrackingVisualGUI extends JDialog
 {
 
@@ -35,6 +46,7 @@ public class BacktrackingVisualGUI extends JDialog
 		treeView.setBounds(12, 13, 458, 385);
 		getContentPane().add(treeView);
 		
+		//An den Anfang
 		JButton button = new JButton("<<");
 		button.setBounds(12, 411, 50, 35);
 		button.addActionListener(new ActionListener()
@@ -49,6 +61,7 @@ public class BacktrackingVisualGUI extends JDialog
 		button.setFocusPainted(false);
 		getContentPane().add(button);
 		
+		//1 zurück
 		JButton button_1 = new JButton("<");
 		button_1.setBounds(74, 411, 50, 35);
 		button_1.addActionListener(new ActionListener()
@@ -65,6 +78,7 @@ public class BacktrackingVisualGUI extends JDialog
 		button_1.setFocusPainted(false);
 		getContentPane().add(button_1);
 		
+		//1 vor
 		JButton button_2 = new JButton(">");
 		button_2.setBounds(136, 411, 50, 35);
 		button_2.addActionListener(new ActionListener()
@@ -81,6 +95,7 @@ public class BacktrackingVisualGUI extends JDialog
 		button_2.setFocusPainted(false);
 		getContentPane().add(button_2);
 		
+		//An das Ende
 		JButton button_3 = new JButton(">>");
 		button_3.setBounds(198, 411, 50, 35);
 		button_3.addActionListener(new ActionListener()
@@ -102,6 +117,10 @@ public class BacktrackingVisualGUI extends JDialog
 		showVerlauf();
 	}
 	
+	/**
+	 * Diese Methode zeigt den Verlauf im JTree jenachdem wie weit
+	 * pos gesetzt wurde.
+	 */
 	private void showVerlauf(){
 		tree.setModel(new DefaultTreeModel(
 				new DefaultMutableTreeNode("Start") {
@@ -148,16 +167,17 @@ public class BacktrackingVisualGUI extends JDialog
 				}
 			));
 		
+		//Alle Knoten des Baumes öffnen
 		expandAllNodes(tree, 0, tree.getRowCount());
 	}
 	
 	private void expandAllNodes(JTree tree, int startingIndex, int rowCount){
-    for(int i=startingIndex;i<rowCount;++i){
-        tree.expandRow(i);
+    for(int i = startingIndex; i < rowCount; ++i){
+      tree.expandRow(i);
     }
 
-    if(tree.getRowCount()!=rowCount){
-        expandAllNodes(tree, rowCount, tree.getRowCount());
+    if(tree.getRowCount() != rowCount){
+      expandAllNodes(tree, rowCount, tree.getRowCount());
     }
 	}
 	

@@ -2,6 +2,16 @@ package net.tfobz.backtracking;
 
 import java.util.ArrayList;
 
+/**
+ * Diese Klasse stellt einen Knoten dar, welcher die folgenden
+ * Eigenschaften besitzt:
+ * 	- content: Der Inhalt des Knotens
+ * 	- weight: Das Gesamtgewicht des Knotens
+ * 	- value: Der Gesamtwert des Knotens
+ * 	- schranke: Die Summe aller Werte wenn man immer nur nach links (einpacken) gehen würde
+ *
+ */
+
 public class Knoten
 {
 	protected ArrayList<Integer> content = new ArrayList<>();
@@ -27,6 +37,10 @@ public class Knoten
 		return schranke;
 	}
 	
+	/**
+	 * Diese Methode wandelt die ArrayList content in ein int-Array um
+	 * @return
+	 */
 	public int[] getElements(){
 		int[] ret = new int[this.content.size()];
 		

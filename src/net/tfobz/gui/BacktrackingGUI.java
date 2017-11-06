@@ -112,6 +112,10 @@ public class BacktrackingGUI extends JFrame
 		this.buttonHelpFile.setMnemonic('?');
 		this.getContentPane().add(this.buttonHelpFile);
 		
+		this.textPath.setBounds(230, 10, 250, 30);
+		this.textPath.setEditable(false);
+		this.getContentPane().add(this.textPath);
+		
 		this.buttonManual.setBounds(230, 50, 250, 30);
 		this.buttonManual.addActionListener(new ActionListener() {
 			
@@ -120,15 +124,19 @@ public class BacktrackingGUI extends JFrame
 				//Ruft ein Fenster auf, in welchem eine Tabelle mit den Elementen bearbeitet werden kann
 				readFile();
 				ManuellGUI m = new ManuellGUI(BacktrackingGUI.this,path,items,itemsName, MAX_LINES);
+				String p = m.getPath();
+				
+				if(p != null){
+					if(!p.equals(path)){
+						path = p;
+						textPath.setText(path);
+					}
+				}
 			}
 		});
 		this.buttonManual.setMnemonic('E');
 		this.buttonManual.setFocusPainted(false);
 		this.getContentPane().add(this.buttonManual);
-		
-		this.textPath.setBounds(230, 10, 250, 30);
-		this.textPath.setEditable(false);
-		this.getContentPane().add(this.textPath);
 		
 		this.labelWeight.setBounds(10, 90, 200, 30);
 		this.labelWeight.setHorizontalAlignment(SwingConstants.CENTER);
@@ -389,6 +397,8 @@ public class BacktrackingGUI extends JFrame
 	    	
 	    	if(components.length != 3){
 	    		JOptionPane.showMessageDialog(this, "Falsches Format der Datei!", "Achtung", JOptionPane.WARNING_MESSAGE);
+	    		this.path = null;
+	    		this.textPath.setText("Fehler: Falsches Format");
 	    		
 	    		return;
 	    	}
@@ -399,6 +409,8 @@ public class BacktrackingGUI extends JFrame
 	    		items[i][1] = Integer.parseInt(components[2]);
 	    	} catch (NumberFormatException ex){
 	    		JOptionPane.showMessageDialog(this, "Falsches Format der Datei!", "Achtung", JOptionPane.WARNING_MESSAGE);
+	    		this.path = null;
+	    		this.textPath.setText("Fehler: Falsches Format");
 	    		
 	    		return;
 	    	}

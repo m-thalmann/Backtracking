@@ -27,17 +27,12 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 public class ManuellGUI extends JDialog {
 	
 	private String[] columnName = {"Name","Gewicht","Wert"};
-	private String[][] data;
 	private String path;
-	private int[][] items;
-	private String[] itemsName;
 	private JTable manuellTable;
 	private JFileChooser fc;
 	
-	public ManuellGUI(JFrame owner, String path,int[][] items, String[] itemsName, int maxElements) {
-		
-		super(owner);
-		this.setTitle("Manuelle Eingabe");
+	public ManuellGUI(JFrame owner, String path, int[][] items, String[] itemsName, int maxElements) {
+		super(owner, "Daten bearbeiten");
 		this.setSize(700,300);
 		this.getContentPane().setLayout(null);
 		this.setResizable(false);
@@ -46,24 +41,28 @@ public class ManuellGUI extends JDialog {
 		
 		this.path = path;
 		
-		if(path == null || path.isEmpty()) {
+		//Tabelle (mit Inhalt) erzeugen
+		if(path == null || !(items.length > 0) || !(itemsName.length > 0)) {
 			manuellTable = new JTable(new Object[maxElements][3],columnName);
 		}else {
-			data = new String[1000][items[0].length+1];
+			String[][] data = new String[maxElements][items[0].length + 1];
 			
 			for(int i = 0 ; i < items.length ; i++) {
+				data[i][0] = itemsName[i];
+				
 				for(int j = 0 ; j < items[0].length ; j++) {
 					data[i][j+1] = String.valueOf(items[i][j]);
 				}
-				data[i][0] = itemsName[i];
 			}
 			
 			manuellTable = new JTable(data, columnName);
 		}
 		
+		this.manuellTable.getTableHeader().setReorderingAllowed(false);
+		
 		JScrollPane scroll = new JScrollPane(manuellTable); 
 		scroll.setBounds(10,10,670,200);
-		this.add(scroll);
+		this.getContentPane().add(scroll);
 		
 		JButton buttonSave = new JButton("Speichern");
 		buttonSave.setBounds(464, 220, 106, 40);
@@ -73,37 +72,42 @@ public class ManuellGUI extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				try{
 					writeFile();
-					//TODO: Hide on click
 				}catch(IOException exc) {
-					JOptionPane.showMessageDialog(ManuellGUI.this, "Es gab einen Fehler beim Schreiben","Fehler" , JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(ManuellGUI.this, "Es gab einen Fehler beim Schreiben", "Fehler", JOptionPane.ERROR_MESSAGE);
 				}
 				
 			}
 		});
 		buttonSave.setFocusPainted(false);
-		this.add(buttonSave);
+		this.getContentPane().add(buttonSave);
 		
 		JButton buttonCancel = new JButton("Abbrechen");
-		buttonCancel.setBounds(570, 220, 106, 40);
+		buttonCancel.setBounds(573, 220, 106, 40);
 		buttonCancel.addActionListener(new ActionListener() {
-			//Bricht die Manuelle Eingabe ab ohne die Änderungen zu sichern
+			//Bricht die manuelle Eingabe ab ohne die Änderungen zu sichern
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int cancel = JOptionPane.showConfirmDialog(ManuellGUI.this, "Wollen Sie wirklich abbrechen?", "Sind Sie sicher?", JOptionPane.OK_CANCEL_OPTION);
-				if(cancel != JOptionPane.OK_CANCEL_OPTION) {
-					ManuellGUI.this.dispose();
-				}
-				
+				setVisible(false);
 			}
 		});
 		buttonCancel.setFocusPainted(false);
-		this.add(buttonCancel);
+		this.getContentPane().add(buttonCancel);
 		
 		this.setVisible(true);
 	
 	}
 	
-	
+	/**
+	 * Diese Methode öffnet, falls noch kein Pfad gesetz wurde, einen FileChooser um
+	 * das Ziel zu wählen. Es ist nur möglich .csv Dateien zu wählen. Falls die Datei
+	 * bereits existiert wird der Benutzer darauf hingewiesen.
+	 * Dann wird Zeile für Zeile der Inhalt der Tabelle in das Ziel geschrieben, bis
+	 * in mindestens einer der Zelle der Reihe nichts enthalten ist.
+	 * Die Methode setzt dann die Eigenschaft visible auf false um das Hauptfenster zu
+	 * reaktivieren. 
+	 * 
+	 * @throws IOException
+	 */
 	private void writeFile() throws IOException {
 		if(path == null) {
 			fc = new JFileChooser();
@@ -122,18 +126,43 @@ public class ManuellGUI extends JDialog {
 				File file = new File(path);
 				
 				if(file.isFile()) {
-					if(JOptionPane.showConfirmDialog(this, "Die Datei: \""+ path + "\" existiert bereits. Überschreiben?") == JOptionPane.OK_OPTION) {
+					int ret = JOptionPane.showConfirmDialog(this, "Die Datei: \""+ path + "\" existiert bereits. Überschreiben?");
+					
+					if(ret == JOptionPane.YES_OPTION){
 						file.delete();
 					}
-					else{
+					else if(ret == JOptionPane.NO_OPTION){
 						path = null;
+						writeFile();
+						return;
+					}
+					else{
 						return;
 					}
 				}
 			}
+			else{
+				return;
+			}
+		}
+		else{
+			int ret = JOptionPane.showConfirmDialog(this, "Die Datei: \""+ path + "\" überschreiben?");
+			
+			if(ret == JOptionPane.YES_OPTION){
+				new File(path).delete();
+			}
+			else if(ret == JOptionPane.NO_OPTION){
+				path = null;
+				writeFile();
+				return;
+			}
+			else{
+				return;
+			}
 		}
 		
-		String nl = System.getProperty( "line.separator" );
+		//Der New-Line Operator des derzeitigen Betriebssystems (\r\n = Windows)
+		String nl = System.getProperty("line.separator");
 		
 		File f = new File(path);
 		f.createNewFile();
@@ -147,6 +176,8 @@ public class ManuellGUI extends JDialog {
         
     fw.flush();
     fw.close();
+    
+    this.setVisible(false);
 	}
 
 	public String getPath() {

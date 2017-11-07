@@ -23,6 +23,9 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  * Wird gespeichert, werden die Inhalte in eine Datei geschrieben, die automatisch als Lesedatei ausgewählt wird.
  * 
  * Die Eingabe kann vom Benutzer abgebrochen werden. In diesem Fall werden die Daten nicht gespeichert.
+ * 
+ * @author 14untpat
+ * 
  */
 public class ManuellGUI extends JDialog {
 	

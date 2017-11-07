@@ -39,7 +39,7 @@ public class Knoten
 	
 	/**
 	 * Diese Methode wandelt die ArrayList content in ein int-Array um
-	 * @return
+	 * @return Die Elemente des Knotens
 	 */
 	public int[] getElements(){
 		int[] ret = new int[this.content.size()];

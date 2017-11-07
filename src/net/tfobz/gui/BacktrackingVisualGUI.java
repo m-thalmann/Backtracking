@@ -21,7 +21,7 @@ import net.tfobz.backtracking.KnotenExt;
  * Durch klicken der 4 Knöpfe kann man sich den Verlauf Schritt für Schritt anzeigen
  * lassen.
  * 
- * @author matth
+ * @author 14thamat
  *
  */
 
@@ -167,10 +167,15 @@ public class BacktrackingVisualGUI extends JDialog
 				}
 			));
 		
-		//Alle Knoten des Baumes öffnen
 		expandAllNodes(tree, 0, tree.getRowCount());
 	}
 	
+	/**
+	 * Diese Methode öffnet alle Knoten eines JTrees
+	 * @param tree der JTree
+	 * @param startingIndex beim Aufruf 0
+	 * @param rowCount beim Aufruf tree.getRowCount()
+	 */
 	private void expandAllNodes(JTree tree, int startingIndex, int rowCount){
     for(int i = startingIndex; i < rowCount; ++i){
       tree.expandRow(i);

@@ -37,7 +37,13 @@ import net.tfobz.backtracking.BacktrackingException;
 
 public class BacktrackingGUI extends JFrame
 {
+	/**
+	 * Maximale Anzahl von Zeilen welche eingelesen werden
+	 */
 	private final int MAX_LINES = 1000;
+	/**
+	 * Maximale Anzahl von Elementen welche zum Visualisieren verwendet werden dürfen
+	 */
 	private final int MAX_LINES_VIS = 6;	
 	
 	private JButton buttonChooseFile = new JButton("Datei wählen...");

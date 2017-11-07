@@ -8,7 +8,6 @@ import java.util.ArrayList;
  * mit deren Hilfe man den Backtracking-Algorithmus anwendet um 
  * das gegebene "Rucksackproblem zu lösen"
  * 
- * 
  * @author 14untpat
  *
  */
@@ -33,9 +32,9 @@ public class Backtracking{
 	private static ArrayList<KnotenExt> verlauf = null;
 	
 	/**
-	 *Setzt die Items und das Maximalgewicht.
-	 *Ruft die Methode computeBest auf, welche das Ergebnis in best schreibt.
-	 *Das Ergebnis wird dann über die Methode getElements von Knoten aufgerufen.
+	 * Setzt die Items und das Maximalgewicht.
+	 * Ruft die Methode computeBest auf, welche das Ergebnis in best schreibt.
+	 * Das Ergebnis wird dann über die Methode getElements von Knoten aufgerufen.
 	 * 
 	 * @param i Elemente, die zur Berechnung verwendet werden
 	 * @param maxWeight Maximalgewicht im Rucksack

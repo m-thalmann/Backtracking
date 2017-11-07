@@ -13,6 +13,14 @@ import javax.swing.border.EmptyBorder;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+/**
+ * Fenster, welches Hilfe zum Aufbau der *.csv Eingabedatei
+ * liefert.
+ * 
+ * @author 14thamat
+ *
+ */
+
 public class FileHelpGUI extends JDialog
 {
 

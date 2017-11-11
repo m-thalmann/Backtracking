@@ -107,6 +107,7 @@ public class BacktrackingVisualGUI extends JDialog
 				showVerlauf();
 			}
 		});
+		button_3.setFocusPainted(false);
 		getContentPane().add(button_3);
 		
 		setSize(500, 500);
